@@ -86,7 +86,10 @@ def handle_pin_added_events(body, logger):
 def handle_app_mention_events(body, logger):
   logger.info(body)
 
-
+@app.event("link_shared")
+def handle_link_shared_events(body, logger):
+    logger.info(body)
+    
 # Start your app
 if __name__ == "__main__":
   SocketModeHandler(app, os.environ["SLACK_APP_TOKEN"]).start()
