@@ -89,7 +89,11 @@ def handle_app_mention_events(body, logger):
 @app.event("link_shared")
 def handle_link_shared_events(body, logger):
     logger.info(body)
-    
+  
+@app.event("app_home_opened")
+def app_home_open(event, say):
+    say(f'Hello world, {event.user}!')
+
 # Start your app
 if __name__ == "__main__":
   SocketModeHandler(app, os.environ["SLACK_APP_TOKEN"]).start()
