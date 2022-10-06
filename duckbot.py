@@ -21,16 +21,6 @@ def dadjoke(ack, respond, payload):
   ack()
   respond(message)
 
-# My Dadjoke Slash Command
-# Send a dadjoke via "icanhazdadjoke.com"'s api
-@app.command("/photo")
-def photo(ack, respond, payload):
-  app.client.users_setPhoto(image='meow.jpg')
-  message = "idek"
-  print(message)
-  ack()
-  respond(message)
-
 # My xkcd Slash Command
 # Using xkcd's url, can respond with a comic. 
 # Either the day of, random, or respond with a direct comic
