@@ -21,6 +21,16 @@ def dadjoke(ack, respond, payload):
   ack()
   respond(message)
 
+# My Dadjoke Slash Command
+# Send a dadjoke via "icanhazdadjoke.com"'s api
+@app.command("/photo")
+def photo(ack, respond, payload):
+  app.client.users_setPhoto(image='meow.jpg')
+  message = "idek"
+  print(message)
+  ack()
+  respond(message)
+
 # My xkcd Slash Command
 # Using xkcd's url, can respond with a comic. 
 # Either the day of, random, or respond with a direct comic
@@ -60,38 +70,21 @@ def xkcd(ack, say, payload):
   ack()
   say(text=f'{0} | {1}/{2}/{3}'.format(message['safe_title'], message['month'], message['day'],message['year']), blocks=blocks)
 
-@app.event("app_home_opened")
-def update_home_tab(client, event, logger):
-    try:
-        # Call views.publish with the built-in client
-        client.views_publish(
-            # Use the user ID associated with the event
-            user_id=event["user"],
-            # Home tabs must be enabled in your app configuration
-            view={
-                "type": "home",
-                "blocks": [
-                    {
-                        "type": "section",
-                        "text": {
-                            "type": "mrkdwn",
-                            "text": "*Welcome home, <@" + event["user"] + "> :house:*"
-                        }
-                    },
-                    {
-                        "type": "section",
-                        "text": {
-                          "type": "mrkdwn",
-                          "text": "Learn how home tabs can be more useful and interactive <https://api.slack.com/surfaces/tabs/using|*in the documentation*>."
-                        }
-                    }
-                ]
-            }
-        )
-    except Exception as e:
-        logger.error(f"Error publishing home tab: {e}")
 
-        
+@app.message("coffee")
+def message_hello(message, say):
+  blocks = [
+          {
+            "type": "image",
+            "image_url": "https://coffee.alexflipnote.dev/random",
+            "alt_text": "some coffee"
+          }
+        ]
+  # say() sends a message to the channel where the event was triggered
+  say(text="have some coffee", blocks=blocks)
+    #https://coffee.alexflipnote.dev/random
+
+
 #Event loggers that record events that happen
 #This leads to less errors in the terminal as well
 @app.event("message")
