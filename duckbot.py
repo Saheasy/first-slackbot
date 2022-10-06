@@ -62,8 +62,20 @@ def xkcd(ack, say, payload):
 def message_hello(message, say):
   blocks = [
           {
+            "type": "section",
+            "text": {
+              "type": "mrkdwn",
+              "text": ":coffee: Someone mentioned coffee! :coffee:"
+            }
+          },
+          {
             "type": "image",
-            "image_url": "https://coffee.alexflipnote.dev/random",
+            "title": {
+              "type": "plain_text",
+              "text": ":coffee:",
+              "emoji": True
+            },
+            "image_url": requests.get('https://coffee.alexflipnote.dev/random.json').json()['file'],
             "alt_text": "some coffee"
           }
         ]
@@ -91,8 +103,33 @@ def handle_link_shared_events(body, logger):
     logger.info(body)
   
 @app.event("app_home_opened")
-def app_home_open(event, say):
-    say(f'Hello world, {event.user}!')
+def update_home_tab(client, event, logger):
+    try:
+        # Call views.publish with the built-in client
+        client.views_publish(
+            # Use the user ID associated with the event
+            user_id=event["user"],
+            # Home tabs must be enabled in your app configuration
+            view={
+                "type": "home",
+                "blocks": [
+                {
+                  "type": "image",
+                  "image_url": "https://picsum.photos/400/100",
+                  "alt_text": "inspiration"
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "*Welcome to my Bot homepage, <@" + event['user'] + ">!*\nYou can access it's code at <https://bitbucket.pearson.com/users/usahusp/repos/spencer-sahu-slackbot/browse?at=refs%2Fheads%2Fdev | my BitBucket Repository>"
+                  }
+                }
+              ]
+            }
+        )
+    except Exception as e:
+        logger.error(f"Error publishing home tab: {e}")
 
 # Start your app
 if __name__ == "__main__":
