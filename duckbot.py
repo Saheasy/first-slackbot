@@ -24,7 +24,7 @@ def dadjoke(ack, respond, payload):
 
 @app.command("/duck")
 def duck_command(ack, respond, payload):
-  message = requests.get('https://random-d.uk/api/v2/random').json()['url']
+  message = requests.get('https://random-d.uk/api/v2/random').json()
   blocks =  [
         {
     			"type": "section",
@@ -35,7 +35,7 @@ def duck_command(ack, respond, payload):
     		},
 		    {
     			"type": "image",
-    			"image_url": message['img'],
+    			"image_url": message,
     			"alt_text": "An amazingly attractive picture of a duck"
     		}
     	]
