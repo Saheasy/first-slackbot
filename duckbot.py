@@ -4,9 +4,13 @@ import requests
 import re
 from slack_bolt import App
 from slack_bolt.adapter.socket_mode import SocketModeHandler
+from dotenv import load_dotenv
+load_dotenv()
 
 # Initializes your app with your bot token and socket mode handler
 app = App(token=os.environ.get("SLACK_BOT_TOKEN"))
+user = os.environ.get("SLACK_USER_TOKEN")
+
 
 # My Dadjoke Slash Command
 # Send a dadjoke via "icanhazdadjoke.com"'s api
@@ -17,6 +21,26 @@ def dadjoke(ack, respond, payload):
   print(message)
   ack()
   respond(message)
+
+@app.command("/duck")
+def duck_command(ack, respond, payload):
+  message = requests.get('https://random-d.uk/api/v2/random').json()['url']
+  blocks =  [
+        {
+    			"type": "section",
+    			"text": {
+    				"type": "mrkdown",
+    				"text": ":duck: Here is a duck for you fine fellow :duck:"
+    			}
+    		},
+		    {
+    			"type": "image",
+    			"image_url": message['img'],
+    			"alt_text": "An amazingly attractive picture of a duck"
+    		}
+    	]
+  ack()
+  respond(text="Here is a duck for you fine fellow", blocks=blocks)
 
 # My xkcd Slash Command
 # Using xkcd's url, can respond with a comic. 
@@ -101,6 +125,10 @@ def handle_app_mention_events(body, logger):
 @app.event("link_shared")
 def handle_link_shared_events(body, logger):
     logger.info(body)
+
+#@app.event("team_join")
+#  def welcome(event, say):
+    
   
 @app.event("app_home_opened")
 def update_home_tab(client, event, logger):
