@@ -128,6 +128,7 @@ def handle_link_shared_events(body, logger):
 
 @app.event("team_join")
 def member_join(event, say):
+  print("test")
   print(event.user)
   print(event.user.keys())
   

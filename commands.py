@@ -80,6 +80,9 @@ class pokemon:
 
         return random.choices( types_short, weights=types_weights, k=1 )
 
+def robohash(input,robot_type, size, bg=None ):
+    pass
+
 if __name__ == "__main__":
   poke = pokemon()
   print(poke.random_type())
