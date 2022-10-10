@@ -126,9 +126,10 @@ def handle_app_mention_events(body, logger):
 def handle_link_shared_events(body, logger):
     logger.info(body)
 
-#@app.event("team_join")
-#  def welcome(event, say):
-    
+@app.event("team_join")
+def member_join(event, say):
+  print(event.user)
+  print(event.user.keys())
   
 @app.event("app_home_opened")
 def update_home_tab(client, event, logger):
