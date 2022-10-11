@@ -1,4 +1,6 @@
 # source .venv/bin/activate  
+# Push on ecr to live on AWS
+from commands import pokemon
 
 import os
 import random
